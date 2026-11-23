@@ -1,0 +1,39 @@
+name: Update CleanSheet predictions
+
+on:
+  schedule:
+    - cron: "30 6 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch fixtures + refresh predictions
+        env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+        run: python robot.py
+
+      - name: Prepare the site folder
+        run: |
+          mkdir -p dist
+          cp index.html dist/index.html
+
+      - name: Publish to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: "./dist"
+          production-deploy: true
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
