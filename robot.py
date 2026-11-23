@@ -187,8 +187,8 @@ def main():
     data['upcoming_leagues'] = out
     data['generated'] = datetime.date.today().strftime("%d %b %Y")
     html = open(os.path.join(HERE, 'index.html')).read()
-    html = re.sub(r"const DATA = .*?;\nconst RES",
-                  "const DATA = " + json.dumps(data) + ";\nconst RES", html, count=1, flags=re.S)
+    newdata = "const DATA = " + json.dumps(data) + ";\nconst RES"
+    html = re.sub(r"const DATA = .*?;\nconst RES", lambda _m: newdata, html, count=1, flags=re.S)
     open(os.path.join(HERE, 'index.html'), 'w').write(html)
     tot = sum(len(l['fixtures']) for l in out)
     print(f"\n[done] {len(out)} leagues, {tot} fixtures written.")
