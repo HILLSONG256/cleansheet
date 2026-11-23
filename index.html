@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CleanSheet — Honest Football Analytics</title>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QQCTYZW3TG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QQCTYZW3TG');
+</script>
+<style>
+  :root{
+    --bg:#0b1020; --bg2:#121a33; --card:#161f3c; --line:#26304f;
+    --ink:#eef2ff; --mut:#9aa6c7; --eme:#28e0a0; --emd:#19b683;
+    --red:#ff6b6b; --amb:#ffc44d; --blue:#5b9dff;
+    --radius:16px; --maxw:1120px;
+  }
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#1a2340 0,transparent 60%),var(--bg);
+    color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+  .mut{color:var(--mut)}
+  /* nav */
+  header{position:sticky;top:0;z-index:20;background:rgba(11,16,32,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:19px}
+  .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--eme),var(--blue));display:grid;place-items:center;color:#06110c;font-weight:900}
+  .navlinks{display:flex;gap:26px;font-size:14px;font-weight:500}
+  .navlinks a{color:var(--mut)} .navlinks a:hover{color:var(--ink)}
+  .badge18{border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;color:var(--amb)}
+  @media(max-width:760px){.navlinks{display:none}}
+  /* hero */
+  .hero{padding:72px 0 40px;position:relative}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(40,224,160,.1);color:var(--eme);border:1px solid rgba(40,224,160,.3);padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:22px}
+  .hero h1{font-size:clamp(34px,6vw,60px);line-height:1.02;letter-spacing:-.03em;margin:0 0 18px;font-weight:800}
+  .hero h1 .hl{background:linear-gradient(120deg,var(--eme),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{font-size:clamp(16px,2.4vw,20px);color:var(--mut);max-width:620px;margin:0 0 30px}
+  .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{padding:13px 22px;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;border:1px solid transparent;transition:.15s}
+  .btn.primary{background:var(--eme);color:#06110c} .btn.primary:hover{background:var(--emd)}
+  .btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)} .btn.ghost:hover{border-color:var(--eme)}
+  /* honesty strip */
+  .honesty{margin-top:52px;background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .honesty h3{margin:0 0 6px;font-size:15px;color:var(--eme);text-transform:uppercase;letter-spacing:.08em}
+  .hstat{display:flex;gap:40px;flex-wrap:wrap;align-items:flex-end;margin-top:14px}
+  .hstat .n{font-size:46px;font-weight:800;letter-spacing:-.02em;line-height:1}
+  .hstat .n.us{color:var(--blue)} .hstat .n.mkt{color:var(--eme)}
+  .hstat .lbl{font-size:13px;color:var(--mut);margin-top:6px}
+  .verdict{margin-top:18px;padding:14px 16px;border-left:3px solid var(--amb);background:rgba(255,196,77,.07);border-radius:8px;font-size:15px}
+  /* sections */
+  section{padding:56px 0}
+  .shead{margin-bottom:26px}
+  .shead h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.02em;margin:0 0 8px;font-weight:800}
+  .shead p{color:var(--mut);margin:0;max-width:640px}
+  /* league cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .lcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .lcard h4{margin:0 0 2px;font-size:18px}
+  .lcard .sub{font-size:12px;color:var(--mut);margin-bottom:16px}
+  .row{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+  .row:first-of-type{border-top:0}
+  .row .v{font-weight:700;font-variant-numeric:tabular-nums}
+  .tag{display:inline-block;margin-top:14px;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(255,107,107,.12);color:var(--red)}
+  /* tabs + fixtures */
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{padding:9px 16px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--mut);font-weight:600;font-size:14px;cursor:pointer}
+  .tab.active{background:var(--eme);color:#06110c;border-color:var(--eme)}
+  .fx{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .fxrow{display:grid;grid-template-columns:120px 1fr 1fr 64px;gap:14px;padding:14px 18px;border-top:1px solid var(--line);align-items:center;font-size:14px}
+  .fxrow.head{border-top:0;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  .match{font-weight:600} .match .d{font-size:12px;color:var(--mut);font-weight:500}
+  .probs{display:flex;gap:4px;align-items:center}
+  .pb{flex:1;height:26px;border-radius:6px;display:flex;overflow:hidden;background:#0c1430}
+  .pb i{display:block;height:100%;font-size:0}
+  .pb .h{background:var(--eme)} .pb .d{background:#3a4a7a} .pb .dd{background:#44507d} .pb .a{background:var(--blue)}
+  .plabel{font-size:11px;color:var(--mut);display:flex;justify-content:space-between;margin-top:3px}
+  .res{text-align:center;font-weight:800}
+  .hit{color:var(--eme)} .miss{color:var(--red)}
+  @media(max-width:680px){.fxrow{grid-template-columns:90px 1fr 48px}.fxrow .mktcol{display:none}.fxrow.head .mktcol{display:none}}
+  /* education */
+  .ecard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .ecard .ic{width:40px;height:40px;border-radius:10px;background:rgba(91,157,255,.12);display:grid;place-items:center;margin-bottom:14px;font-size:20px}
+  .ecard h4{margin:0 0 6px;font-size:17px}
+  .ecard p{margin:0;color:var(--mut);font-size:14px}
+  /* ad + newsletter */
+  .ad{border:1px dashed var(--line);border-radius:12px;padding:16px;text-align:center;color:var(--mut);font-size:13px;margin:20px 0}
+  .news{background:linear-gradient(135deg,var(--bg2),var(--card));border:1px solid var(--line);border-radius:var(--radius);padding:30px;text-align:center}
+  .news h3{margin:0 0 8px;font-size:24px}
+  .news form{display:flex;gap:10px;max-width:420px;margin:16px auto 0}
+  .news input{flex:1;padding:13px 16px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:15px}
+  /* articles */
+  .article{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+  .article summary{list-style:none;cursor:pointer;padding:22px 24px;display:flex;flex-direction:column;gap:6px}
+  .article summary::-webkit-details-marker{display:none}
+  .article summary h4{margin:0;font-size:19px;letter-spacing:-.01em}
+  .article summary .teaser{color:var(--mut);font-size:14px}
+  .article summary .read{color:var(--eme);font-size:13px;font-weight:700;margin-top:4px}
+  .article[open] summary .read::after{content:" ▲"} .article summary .read::after{content:" ▼"}
+  .article .body{padding:0 24px 24px;color:#cdd6f4;font-size:15px;line-height:1.7;max-width:760px}
+  .article .body p{margin:0 0 14px} .article .body h5{color:var(--ink);font-size:16px;margin:20px 0 8px}
+  .article .body strong{color:#fff}
+  /* breakdown table */
+  .ltable{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .ltable th,.ltable td{text-align:left;padding:12px 16px;border-top:1px solid var(--line)}
+  .ltable th{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;border-top:0;background:var(--bg2)}
+  .ltable td.num{font-variant-numeric:tabular-nums}
+  .ltable .vd{color:var(--amb);font-weight:700;font-size:12px}
+  .ltable tfoot td{background:var(--bg2);font-weight:700;border-top:2px solid var(--line);color:var(--ink)}
+  @media(max-width:620px){.ltable .hide-sm{display:none}}
+  /* share bar */
+  .share{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:30px}
+  .share .lab{font-size:13px;color:var(--mut);font-weight:600}
+  .share a,.share button{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:.15s;font-family:inherit}
+  .share a:hover,.share button:hover{border-color:var(--eme)}
+  .share .wa:hover{border-color:#25d366}
+  /* footer */
+  footer{border-top:1px solid var(--line);background:var(--bg2);padding:40px 0;font-size:13px;color:var(--mut)}
+  .rg{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.25);border-radius:12px;padding:16px;margin-bottom:24px;color:#ffd9d9}
+  .rg b{color:#fff}
+  .fcols{display:flex;gap:40px;flex-wrap:wrap;justify-content:space-between}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap"><nav>
+    <div class="brand"><span class="logo">C</span> CleanSheet</div>
+    <div class="navlinks">
+      <a href="#upcoming">Upcoming</a>
+      <a href="#analysis">Analysis</a>
+      <a href="#record">Track Record</a>
+      <a href="#articles">Articles</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <span class="badge18">18+ only</span>
+  </nav></div>
+</header>
+
+<div class="wrap">
+  <!-- HERO -->
+  <section class="hero">
+    <span class="pill">● No fake badges. No guaranteed tips.</span>
+    <h1>Football analytics,<br><span class="hl">without the BS.</span></h1>
+    <p class="lead">We build statistical models for Europe's top leagues and publish their predictions next to the market's — plus our <b>real</b> track record. The wins <i>and</i> the losses. Every number, out in the open.</p>
+    <div class="cta">
+      <a href="#analysis"><button class="btn primary">See the predictions</button></a>
+      <a href="#record"><button class="btn ghost">Our honest record →</button></a>
+    </div>
+    <div class="share">
+      <span class="lab">Know someone sick of betting scams? Share it:</span>
+      <a class="wa" href="https://wa.me/?text=Finally%20an%20honest%20football%20analytics%20site%20%E2%80%94%20no%20fake%20%2287%25%20accuracy%22%20badges%2C%20they%20show%20their%20real%20record%3A%20https%3A%2F%2Fcleansheetstats.tech" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="tw" href="https://twitter.com/intent/tweet?text=Finally%20an%20honest%20football%20analytics%20site%20that%20shows%20its%20real%20record%20instead%20of%20fake%20%22accuracy%22%20badges%3A&url=https%3A%2F%2Fcleansheetstats.tech" target="_blank" rel="noopener">Share on X</a>
+      <button type="button" onclick="navigator.clipboard &amp;&amp; navigator.clipboard.writeText('https://cleansheetstats.tech').then(()=>{this.textContent='Link copied ✓'})">Copy link</button>
+    </div>
+
+    <div class="honesty">
+      <h3>The honesty check most sites hide</h3>
+      <div class="hstat">
+        <div><div class="n us" id="hUs">–</div><div class="lbl">Our model picks the right result</div></div>
+        <div><div class="n mkt" id="hMkt">–</div><div class="lbl">The betting market picks the right result</div></div>
+        <div><div class="n" style="color:var(--mut);font-size:30px" id="hN">–</div><div class="lbl">matches independently tested</div></div>
+      </div>
+      <div class="verdict">⚠️ <b>The market is still slightly sharper than us</b> — and we'll never pretend otherwise. Beating the closing odds for profit is one of the hardest things in sport. Anyone selling you "87% winning tips" is selling you a fantasy. We sell you the truth and the math.</div>
+    </div>
+  </section>
+
+  <!-- UPCOMING -->
+  <section id="upcoming">
+    <div class="shead">
+      <h2>Upcoming predictions</h2>
+      <p>Our model's probabilities for the next fixtures, shown next to the real live market odds (averaged across 20+ bookmakers). No result yet, nothing to hide behind. Honest note: our model's form memory currently runs through earlier in the season, so treat these as a work in progress — not gospel.</p>
+    </div>
+    <div class="tabs" id="uptabs"></div>
+    <div class="fx" id="upfixtures"></div>
+    <p class="mut" style="font-size:12px;margin-top:10px">Generated <span id="genDate">–</span>. Predictions are statistical estimates, not guarantees. 18+. Bet responsibly.</p>
+  </section>
+
+  <!-- ANALYSIS -->
+  <section id="analysis">
+    <div class="shead">
+      <h2>Latest match analysis</h2>
+      <p>Our model's probabilities vs the market's, for recent fixtures. A ✓ means our model's top pick matched the result — shown honestly, hits and misses alike.</p>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="fx" id="fixtures"></div>
+    <div class="ad">Sponsored slot — partner odds comparison / responsible operator (ad placeholder)</div>
+  </section>
+
+  <!-- TRACK RECORD -->
+  <section id="record">
+    <div class="shead">
+      <h2>Our transparent track record</h2>
+      <p>Measured by log-loss (prediction accuracy — lower is better) against the bookmakers' closing odds, over thousands of matches since 2015. We show where we lose, not just where we win.</p>
+    </div>
+    <div class="grid" id="record-cards"></div>
+    <div class="verdict" style="margin-top:20px">Honesty note: if you had flat-staked our model's "value" picks, you'd have <b>lost money</b> in every league — roughly the bookmaker's margin. That's exactly why we are an <b>analytics & information</b> service, not a betting-tips service. Use our numbers to think, not as a promise to profit.</div>
+
+    <h3 style="margin:34px 0 4px;font-size:20px">The full testing breakdown</h3>
+    <p class="mut" style="margin:0 0 4px;font-size:14px">Prediction accuracy by league (log-loss — lower is better). We ran this on real closing odds, 2015–2026. We show every result, including the ones where the market beat us. Which is all of them.</p>
+    <table class="ltable">
+      <thead>
+        <tr><th>League</th><th>Our model</th><th>The market</th><th class="hide-sm">ROI if you'd bet it</th><th>Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>England — Premier League</td><td class="num">0.978</td><td class="num">0.951</td><td class="num hide-sm">−6.9%</td><td class="vd">Market sharper</td></tr>
+        <tr><td>England — Championship</td><td class="num">1.063</td><td class="num">—</td><td class="num hide-sm">−9.4%</td><td class="vd">Market sharper</td></tr>
+        <tr><td>England — League One</td><td class="num">1.062</td><td class="num">1.030</td><td class="num hide-sm">−7.7%</td><td class="vd">Market sharper</td></tr>
+        <tr><td>England — League Two</td><td class="num">1.088</td><td class="num">1.047</td><td class="num hide-sm">−6.5%</td><td class="vd">Market sharper</td></tr>
+        <tr><td>Spain — La Liga</td><td class="num">0.984</td><td class="num">0.965</td><td class="num hide-sm">−6.6%</td><td class="vd">Market sharper</td></tr>
+        <tr><td>Italy — Serie A</td><td class="num">0.973</td><td class="num">0.951</td><td class="num hide-sm">−10.6%</td><td class="vd">Market sharper</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="5">Tested across <b>14 leagues</b> and <b>~55,000 matches</b> — the closing line beat our model in <b>every single one</b>. We think you deserve to know that before trusting anyone's "predictions."</td></tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <!-- WHY TRUST -->
+  <section id="trust">
+    <div class="shead"><h2>Why trust us?</h2><p>Because we tell you the things the scam sites bury.</p></div>
+    <div class="grid">
+      <div class="ecard"><div class="ic">📊</div><h4>Real records, kept forever</h4><p>We never delete a bad run. Every prediction is logged with a date, before kickoff — so the record can't be cherry-picked after the fact.</p></div>
+      <div class="ecard"><div class="ic">🧮</div><h4>We show our accuracy vs the market</h4><p>Not a meaningless "win rate." We benchmark against the sharpest number in football — the closing line — and tell you when it beats us.</p></div>
+      <div class="ecard"><div class="ic">🚫</div><h4>We don't sell guaranteed tips</h4><p>There's no such thing. We proved it with 55,000 matches. We give you data and insight, and let you make your own informed decisions.</p></div>
+    </div>
+  </section>
+
+  <!-- LEARN -->
+  <section id="learn">
+    <div class="shead"><h2>Why most "prediction" sites are scams</h2><p>Free education — the stuff that protects your money.</p></div>
+    <div class="grid">
+      <div class="ecard"><div class="ic">🎯</div><h4>"Accuracy" is a trick</h4><p>A site can be "85% accurate" by only tipping heavy favourites — and still lose money, because those odds pay out too little. Accuracy ≠ profit.</p></div>
+      <div class="ecard"><div class="ic">💸</div><h4>The margin always bites</h4><p>Bookmakers bake a cut into every price. Just following the market loses you that cut over time — guaranteed by maths, not bad luck.</p></div>
+      <div class="ecard"><div class="ic">🪤</div><h4>The winner's curse</h4><p>The more confidently a mediocre model disagrees with a sharp market, the more often it's the model that's wrong. "Value" from noise is a trap.</p></div>
+      <div class="ecard"><div class="ic">👻</div><h4>Survivorship & deleted records</h4><p>Scam tipsters quietly delete losing months and only show the winning ones. A record you can't audit is a record that's lying.</p></div>
+    </div>
+  </section>
+
+  <!-- ARTICLES -->
+  <section id="articles">
+    <div class="shead"><h2>Deep dives</h2><p>The honest stuff — the articles the tip-sellers hope you never read.</p></div>
+
+    <details class="article">
+      <summary>
+        <h4>Why "Accuracy" Is a Lie in Betting Predictions</h4>
+        <span class="teaser">Every scam site leads with a big accuracy number. Here's why it's meaningless — and what to look at instead.</span>
+        <span class="read">Read article</span>
+      </summary>
+      <div class="body">
+        <p>Walk past any betting-tips site and you'll see it: <strong>"87% accuracy."</strong> "9 out of 10 winners." It sounds impressive. It's also one of the most misleading numbers in the entire industry, and once you understand why, you'll never trust a tipster who leads with it.</p>
+        <p>Here's the trick. Imagine a "tipster" who only ever predicts that the heavy favourite will win. In football, strong favourites win maybe 65–70% of the time. So this tipster can honestly claim a 65%+ "accuracy" — and still lose money on every bet, because the odds on those favourites are so short that the occasional upset wipes out all the small wins.</p>
+        <h5>Accuracy measures how often you're right. It says nothing about whether you make money.</h5>
+        <p>The only number that matters is <strong>return on investment (ROI) after the bookmaker's margin</strong> — how much profit you make per pound staked, over hundreds or thousands of bets. A tipster who is "right" 40% of the time at big odds can crush one who is "right" 70% of the time at short odds.</p>
+        <p>At CleanSheet, our model picks the correct result about <strong>53.8%</strong> of the time. The betting market picks it <strong>54.9%</strong> of the time. We're close — and we tell you plainly that the market is still slightly sharper than us. No site selling you tips would ever admit that. That's exactly why you should trust the one that does.</p>
+        <p><strong>The takeaway:</strong> if a site leads with an "accuracy" badge and hides its ROI, close the tab. The number they're showing you is the one designed to impress; the number they're hiding is the one that tells the truth.</p>
+      </div>
+    </details>
+
+    <details class="article">
+      <summary>
+        <h4>How Bookmakers Actually Make Money (The "Vig" Explained)</h4>
+        <span class="teaser">The house edge is baked into every single price. Here's how it quietly drains your bankroll — and why "just follow the market" still loses.</span>
+        <span class="read">Read article</span>
+      </summary>
+      <div class="body">
+        <p>Bookmakers aren't in the business of predicting football. They're in the business of <strong>building a margin into the odds</strong> so they win over time no matter who you back. That margin has a name: the "vig," the "juice," or the "overround."</p>
+        <h5>Add up the chances and they come to more than 100%.</h5>
+        <p>Here's how to see it. Take any match's three prices — home, draw, away — and turn each into an implied probability (1 ÷ decimal odds). In a fair world, those three would add up to exactly 100%. They never do. They add up to something like 105% or 106%. That extra 5–6% is the bookmaker's cut, hidden in plain sight across all three prices.</p>
+        <p>What does that mean for you? If you simply bet along with the market's opinion — backing whatever the bookmaker thinks is most likely — you will lose roughly that margin over time. Not because you're unlucky. Because the maths is built that way. We tested this across tens of thousands of real matches: blindly following the favourite loses about <strong>6–7%</strong> of everything staked, like clockwork.</p>
+        <h5>To actually profit, you don't need to be good. You need to be better than a sharp market — by more than the margin.</h5>
+        <p>That's the brutal bar, and it's why winning long-term is so rare. The bookmaker starts every bet already ahead. Beating them means being measurably more accurate than a market with billions of pounds and thousands of professionals on the other side — <em>and then</em> clearing that 5–6% tax on top.</p>
+        <p><strong>The takeaway:</strong> the vig is why "sure things" and "just back the favourites" quietly bleed you dry. Respect the margin, or it will teach you to.</p>
+      </div>
+    </details>
+
+    <details class="article">
+      <summary>
+        <h4>We Tested 55,000 Matches. Here's the Honest Truth About Beating the Bookie.</h4>
+        <span class="teaser">We built the models. We ran the numbers on real closing odds across 14 leagues. This is what we found — and why we'll never sell you "guaranteed tips."</span>
+        <span class="read">Read article</span>
+      </summary>
+      <div class="body">
+        <p>Most prediction sites ask you to trust them. We'd rather show you our homework.</p>
+        <p>Before CleanSheet published a single prediction, we did something the tip-sellers never do: we <strong>stress-tested our own models against reality</strong>. We took real closing odds — the sharpest prices bookmakers offer — across roughly <strong>55,000 matches</strong> in 14 leagues, from the Premier League down to lower divisions, and out to Brazil, Argentina, Japan and beyond. Then we asked one honest question: <em>does our model make money after the bookmaker's margin?</em></p>
+        <h5>The answer, league after league, was no.</h5>
+        <p>We tried a simple goals model. Then a sharper one with recent-form weighting. Then a machine-learning model using shots on target, team ratings and form. Every version got better — and <strong>not one of them beat the closing line in a single league</strong>. The market was more accurate than our model everywhere we looked. Even in the "soft" smaller leagues people assume are easy, the market held.</p>
+        <p>We could have hidden that. We could have cherry-picked the one good-looking week and slapped "92% WINNERS" on a sales page. Instead, we're telling you the truth: <strong>beating the bookmaker consistently with public data is one of the hardest things in sport</strong>, and almost nobody selling you tips can actually do it.</p>
+        <h5>So what is CleanSheet for?</h5>
+        <p>We're an <strong>analytics and information</strong> site, not a tip service. We publish our model's view next to the market's so you can see where they agree and disagree. We show our real track record — the losses included. And we teach you how this stuff actually works, so you can make your own informed decisions with your eyes open.</p>
+        <p><strong>The takeaway:</strong> anyone promising guaranteed football profits is either lying or doesn't understand the maths. We did the test so you don't have to lose money learning the lesson the hard way.</p>
+      </div>
+    </details>
+    <details class="article">
+      <summary>
+        <h4>What Is Expected Goals (xG)? A Plain-English Guide</h4>
+        <span class="teaser">You've heard pundits say "xG" a hundred times. Here's what it actually means — and why it tells you more than the scoreline.</span>
+        <span class="read">Read article</span>
+      </summary>
+      <div class="body">
+        <p>"They won 1–0 but the xG says they were lucky." If you've watched football in the last few years, you've heard something like it. So what is this number everyone keeps quoting?</p>
+        <h5>xG measures the quality of chances, not the final score.</h5>
+        <p><strong>Expected goals (xG)</strong> puts a value on every shot: the probability that an average player would score from that exact position and situation. A tap-in from two yards might be worth 0.9 xG — almost certain. A hopeful shot from 30 yards might be worth 0.03 xG — a long shot, literally. Add up all of a team's chances in a match and you get their total xG: how many goals they "should" have scored based on the quality of their opportunities.</p>
+        <p>Why does this matter? Because <strong>the scoreline is noisy</strong>. A team can batter the opposition, rack up 2.8 xG, and lose 1–0 to a lucky breakaway. Over a single game, that happens. Over a season, xG tends to catch up with reality — teams that consistently create better chances usually climb the table, and teams "overperforming" their xG often come crashing back down.</p>
+        <h5>For anyone thinking about a match analytically, xG is a sharper lens than goals.</h5>
+        <p>It's one of the inputs that makes a statistical model more reliable than gut feeling. A team on a "winning streak" might actually be riding luck their xG can't support — a warning sign the raw results hide. That's exactly the kind of signal CleanSheet's models weigh, instead of just reacting to the last result.</p>
+        <p><strong>The takeaway:</strong> goals tell you what happened. xG hints at what <em>should</em> have happened — and what's more likely to happen next. Learn to read it and you'll watch football with sharper eyes.</p>
+      </div>
+    </details>
+
+    <details class="article">
+      <summary>
+        <h4>How to Spot a Betting Tipster Scam: 7 Red Flags</h4>
+        <span class="teaser">The tells are always the same. Learn these seven and you'll never get burned by a fake "expert" again.</span>
+        <span class="read">Read article</span>
+      </summary>
+      <div class="body">
+        <p>The betting-tips world is full of confident strangers promising to make you rich. Almost all of them are selling noise. Here are the seven red flags that give them away every single time.</p>
+        <h5>1. A big "accuracy" or "win rate" with no ROI.</h5>
+        <p>"92% winners!" means nothing without profit-after-margin. If they hide the ROI, the accuracy number is a magic trick. Real edge is measured in money made, not bets won.</p>
+        <h5>2. Guaranteed or "sure" wins.</h5>
+        <p>There is no such thing in betting. Anyone who guarantees profit is either lying or doesn't understand the maths. Full stop.</p>
+        <h5>3. A track record you can't audit.</h5>
+        <p>If the "results" are just screenshots they could've edited, they're worthless. A real record is timestamped <em>before</em> kickoff, somewhere it can't be changed later.</p>
+        <h5>4. Deleted or hidden losing runs.</h5>
+        <p>Scam tipsters quietly erase bad months and only show the good weeks. If you can only ever see wins, you're looking at a highlight reel, not a record.</p>
+        <h5>5. Pressure and urgency.</h5>
+        <p>"Only 3 slots left!" "Odds won't last!" Manufactured urgency is a sales tactic, not analysis. Real edges don't evaporate because you took an hour to think.</p>
+        <h5>6. Flashy lifestyle "proof."</h5>
+        <p>Cars, cash, and watches prove they made money <em>selling tips</em> — not from betting. If their picks actually won, they'd bet them quietly, not sell them to you.</p>
+        <h5>7. They get paid whether you win or lose.</h5>
+        <p>Subscriptions and bookmaker affiliate links mean their income doesn't depend on your success. Always ask: how does this person make money — and does it still work if I lose?</p>
+        <p><strong>The takeaway:</strong> an honest analyst shows you the losses, measures ROI, never guarantees anything, and never rushes you. If a site fails these tests, keep your money. (You can check ours against all seven — that's the point.)</p>
+      </div>
+    </details>
+    <details class="article">
+      <summary>
+        <h4>What Is Value Betting — and Why It's Harder Than It Looks</h4>
+        <span class="teaser">"Value" is the word every tipster throws around. Here's what it really means, and why finding it is brutally difficult.</span>
+        <span class="read">Read article</span>
+      </summary>
+      <div class="body">
+        <p>If you spend five minutes in betting circles, you'll hear the word <strong>"value."</strong> It's the holy grail — and it's badly misunderstood.</p>
+        <h5>Value just means the odds are bigger than the true chance.</h5>
+        <p>Here's the idea. Say a team genuinely has a 50% chance of winning. Fair odds for that are 2.00 (bet £1, win £1). If a bookmaker offers you 2.20, that's a "value" bet — you're being paid as if the chance were lower than it really is. Over many bets like that, you'd profit. That's the whole theory, and it's sound.</p>
+        <h5>The catch is the part nobody mentions: how do you know the true chance?</h5>
+        <p>To spot value, you need to estimate the real probability <em>more accurately than the bookmaker does</em>. And the bookmaker isn't guessing — their closing odds reflect huge amounts of money, data, and sharp professional opinion. So most of the time, when your number disagrees with theirs, <strong>it's your number that's wrong</strong>, not theirs.</p>
+        <p>This is the trap: a casual bettor sees odds of 2.20, "feels" the team is better than that, and calls it value. But that feeling is usually just error. Bet on your own mistakes long enough and you don't find value — you hand the bookmaker their margin, faster. We saw this directly in our own testing: models that confidently chased "value" against the closing line lost <em>more</em> than ones that didn't.</p>
+        <p><strong>The takeaway:</strong> value betting is real in theory, and genuinely the only way to win long-term. But "value" only counts if your probability estimate is actually sharper than a multi-billion-pound market's. That's the hard part — and it's why we're honest that it's rare, not a weekly guarantee.</p>
+      </div>
+    </details>
+
+    <details class="article">
+      <summary>
+        <h4>How CleanSheet Builds Its Predictions, Step by Step</h4>
+        <span class="teaser">No black box, no "trust us." Here's exactly how our model turns data into a probability — and where its limits are.</span>
+        <span class="read">Read article</span>
+      </summary>
+      <div class="body">
+        <p>Most prediction sites treat their "method" like a trade secret — usually because there isn't one. We'll do the opposite and walk you through ours.</p>
+        <h5>Step 1: Gather real data.</h5>
+        <p>For every match across Europe's top leagues, we pull years of history: goals scored and conceded, <strong>shots on target</strong> (a far less noisy signal of quality than goals), recent form, and team strength ratings. Thousands of matches, not opinions.</p>
+        <h5>Step 2: Train a model.</h5>
+        <p>We use a statistical model that learns how these factors translate into results. Shots on target matter because a team can win 1–0 on a fluke while being outplayed — the goals lie, the underlying numbers don't. The model blends attack strength, defensive solidity, home advantage and recent form into a probability for Home, Draw and Away.</p>
+        <h5>Step 3: Test it honestly — no cheating.</h5>
+        <p>This is the step others skip. We predict every match using <strong>only data from before it was played</strong> (no peeking at the future), then check the predictions against what actually happened, across tens of thousands of games. If a model only looks good because it secretly trained on the answers, it's worthless — so we don't allow it.</p>
+        <h5>Step 4: Compare to the market, and tell you the truth.</h5>
+        <p>We measure our accuracy against the bookmakers' closing odds — the sharpest benchmark there is. And when the market beats us, <strong>we say so, out loud</strong>, on our track-record page. (Right now, it's slightly ahead of us. We won't hide that.)</p>
+        <p><strong>The takeaway:</strong> our predictions are a disciplined, tested estimate — not a crystal ball. Knowing exactly how they're made, and where they fall short, is what lets you use them intelligently instead of blindly.</p>
+      </div>
+    </details>
+
+    <details class="article">
+      <summary>
+        <h4>What Is "Closing Line Value" — and Why Pros Obsess Over It</h4>
+        <span class="teaser">Forget win streaks. This one quiet number is how sharp bettors actually know if they have an edge.</span>
+        <span class="read">Read article</span>
+      </summary>
+      <div class="body">
+        <p>Ask a professional bettor how they know they're good, and they won't point to last weekend's wins. They'll talk about <strong>closing line value</strong> — the one metric that separates genuine skill from luck.</p>
+        <h5>The "closing line" is the final, sharpest price.</h5>
+        <p>Odds move right up until kickoff as money and information pour in. The <strong>closing line</strong> — the price at the moment betting shuts — is the market's most accurate opinion of all. It's notoriously hard to beat, because it reflects everything everyone knows.</p>
+        <h5>Closing line value (CLV) means you consistently got a better price than the close.</h5>
+        <p>Say you back a team at 2.50, and by kickoff the odds have shortened to 2.20. You got "closing line value" — you bet at a bigger price than the sharpest final number. Do that <em>consistently</em>, across hundreds of bets, and it's strong evidence you're genuinely ahead of the market — even before you know if those individual bets won or lost.</p>
+        <p>Why trust CLV over your actual win/loss record? Because <strong>short-term results are mostly noise</strong>. You can make brilliant bets and lose for a month, or terrible bets and win for a month — variance is brutal over small samples. But beating the closing line, over and over, is very hard to fake. It's signal, not luck.</p>
+        <p>This is also the honest bar we hold ourselves to. It's not enough for our picks to "feel" right or to win a lucky week — the real question is whether they beat the closing line over thousands of matches. When they don't, that's the truth we report.</p>
+        <p><strong>The takeaway:</strong> if someone's selling you tips and has never mentioned closing line value, they probably don't understand what a real edge even looks like. It's the quiet number that tells you whether skill is actually there.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="shead"><h2>Frequently asked questions</h2><p>Straight answers — the same honesty we put in everything else.</p></div>
+
+    <details class="article">
+      <summary><h4>Is CleanSheet betting advice?</h4><span class="read">Show answer</span></summary>
+      <div class="body"><p>No. CleanSheet is a <strong>statistics and information</strong> service, not a betting-tips service and not financial advice. We publish what our model thinks and what the market thinks, side by side, so you can make your own informed decisions. Betting carries real financial risk and can be addictive — 18+ only, and please gamble responsibly.</p></div>
+    </details>
+
+    <details class="article">
+      <summary><h4>How accurate are your predictions, really?</h4><span class="read">Show answer</span></summary>
+      <div class="body"><p>Our model picks the correct match result about <strong>53.8%</strong> of the time. The betting market picks it <strong>54.9%</strong> of the time — so the market is still slightly sharper than us, and we say so plainly on our track-record page. Anyone claiming "87% winners" is showing you a meaningless vanity number. We'd rather show you the honest one.</p></div>
+    </details>
+
+    <details class="article">
+      <summary><h4>Do you sell tips or guarantee wins?</h4><span class="read">Show answer</span></summary>
+      <div class="body"><p>Never. We tested three models across <strong>14 leagues and ~55,000 matches</strong>, and not one beat the bookmakers' closing line. So there is no "guaranteed win" to sell — and anyone who tells you otherwise is either lying or doesn't understand the maths. We don't take your money for picks. We give you data and analysis, free.</p></div>
+    </details>
+
+    <details class="article">
+      <summary><h4>Why should I trust you over other prediction sites?</h4><span class="read">Show answer</span></summary>
+      <div class="body"><p>Because we show the losses, not just the wins. Our full track record — including every league where the market beat us — is public. We measure ourselves against the sharpest benchmark in football (the closing line) and report ROI, not a cherry-picked "win rate." No fake badges, no deleted bad weeks, no invented testimonials. If a site can't show you that, keep your money.</p></div>
+    </details>
+
+    <details class="article">
+      <summary><h4>Which leagues and competitions do you cover?</h4><span class="read">Show answer</span></summary>
+      <div class="body"><p>Right now our published model focuses on Europe's top leagues — the Premier League, La Liga and Serie A — where the data is richest. Our testing has spanned 14 leagues worldwide, and we're expanding coverage over time.</p></div>
+    </details>
+
+    <details class="article">
+      <summary><h4>Is CleanSheet free?</h4><span class="read">Show answer</span></summary>
+      <div class="body"><p>Yes — everything on the site is free to read. We may add clearly-labelled sponsor or affiliate links to <em>licensed</em> operators in future, but our analysis will never be for sale and our numbers will never be influenced by them.</p></div>
+    </details>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section>
+    <div class="news">
+      <h3>Get the weekly honest briefing</h3>
+      <p class="mut">Model vs market for the weekend's big fixtures, plus one myth we debunk. No hype, no "locks of the day."</p>
+      <form onsubmit="event.preventDefault();this.querySelector('button').textContent='Thanks — you're on the list';">
+        <input type="email" placeholder="you@email.com" required>
+        <button class="btn primary" type="submit">Subscribe</button>
+      </form>
+      <p class="mut" style="font-size:12px;margin-top:12px">Free. Unsubscribe anytime. We never share your email.</p>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="rg">
+      <b>Bet responsibly.</b> 18+ only. Betting carries real financial risk and can be addictive. Nothing on CleanSheet is a guarantee or financial advice — our content is statistical analysis for information and entertainment. If gambling is affecting you or someone you know, please seek help from a local support service. In Uganda, gambling is regulated by the National Lotteries and Gaming Regulatory Board (NLGRB).
+    </div>
+    <div class="fcols">
+      <div style="max-width:320px">
+        <div class="brand" style="margin-bottom:8px"><span class="logo">C</span> CleanSheet</div>
+        <p>Honest football analytics. We publish the math and our real record — not fantasy win rates.</p>
+      </div>
+      <div><strong style="color:#fff">Site</strong><br><br>
+        <a href="#analysis">Analysis</a><br><a href="#record">Track record</a><br><a href="#trust">Why trust us</a><br><a href="#learn">Learn</a></div>
+      <div><strong style="color:#fff">Legal</strong><br><br>
+        Affiliate disclosure<br>Terms of use<br>Privacy policy<br>Responsible gambling</div>
+    </div>
+    <p style="margin-top:28px;opacity:.7">© 2026 CleanSheet Analytics. Predictions are model estimates, not guarantees. Affiliate disclosure: some outbound links to licensed operators may earn us a commission — it never changes what our model says.</p>
+  </div>
+</footer>
+
+<script>
+const DATA = {"leagues": {"E0": {"name": "Premier League", "n": 3652, "model_logloss": 0.9704, "book_logloss": 0.9529, "model_hit": 54.3, "market_hit": 55.6, "roi": -1.5, "recent": [{"date": "23 Aug 2026", "home": "Man City", "away": "Bournemouth", "model": [0.602, 0.238, 0.159], "market": [0.639, 0.21, 0.151], "result": "H"}, {"date": "23 Aug 2026", "home": "Newcastle", "away": "Liverpool", "model": [0.338, 0.253, 0.41], "market": [0.241, 0.253, 0.506], "result": "D"}, {"date": "24 Aug 2026", "home": "Fulham", "away": "Chelsea", "model": [0.393, 0.276, 0.331], "market": [0.26, 0.247, 0.493], "result": "A"}, {"date": "28 Aug 2026", "home": "Crystal Palace", "away": "Man City", "model": [0.212, 0.233, 0.555], "market": [0.19, 0.243, 0.567], "result": "A"}, {"date": "29 Aug 2026", "home": "Tottenham", "away": "Newcastle", "model": [0.414, 0.229, 0.357], "market": [0.421, 0.253, 0.327], "result": "A"}, {"date": "29 Aug 2026", "home": "Liverpool", "away": "Nott'm Forest", "model": [0.595, 0.233, 0.171], "market": [0.627, 0.209, 0.164], "result": "D"}, {"date": "29 Aug 2026", "home": "Bournemouth", "away": "Everton", "model": [0.532, 0.241, 0.227], "market": [0.464, 0.272, 0.264], "result": "D"}, {"date": "30 Aug 2026", "home": "Chelsea", "away": "Brighton", "model": [0.342, 0.274, 0.385], "market": [0.522, 0.239, 0.239], "result": "H"}, {"date": "30 Aug 2026", "home": "Leeds", "away": "Brentford", "model": [0.412, 0.248, 0.34], "market": [0.364, 0.286, 0.35], "result": "D"}, {"date": "30 Aug 2026", "home": "Sunderland", "away": "Fulham", "model": [0.34, 0.249, 0.411], "market": [0.396, 0.297, 0.307], "result": "H"}, {"date": "30 Aug 2026", "home": "Man United", "away": "Ipswich", "model": [0.739, 0.185, 0.076], "market": [0.673, 0.191, 0.136], "result": "H"}, {"date": "31 Aug 2026", "home": "Aston Villa", "away": "Arsenal", "model": [0.218, 0.262, 0.52], "market": [0.157, 0.229, 0.614], "result": "A"}], "upcoming": [{"date": "23 Nov", "home": "Brentford", "away": "Everton", "market": [0.415, 0.276, 0.309], "model": [0.455, 0.265, 0.281]}, {"date": "27 Nov", "home": "Nott'm Forest", "away": "Chelsea", "market": [0.352, 0.274, 0.374], "model": [0.357, 0.273, 0.369]}, {"date": "28 Nov", "home": "Man United", "away": "Brentford", "market": [0.472, 0.25, 0.278], "model": [0.583, 0.235, 0.182]}, {"date": "28 Nov", "home": "Leeds", "away": "Coventry", "market": [0.621, 0.218, 0.161], "model": [0.537, 0.255, 0.207]}, {"date": "28 Nov", "home": "Ipswich", "away": "Aston Villa", "market": [0.278, 0.247, 0.476], "model": [0.229, 0.275, 0.496]}, {"date": "29 Nov", "home": "Everton", "away": "Liverpool", "market": [0.271, 0.259, 0.47], "model": [0.339, 0.269, 0.392]}, {"date": "29 Nov", "home": "Fulham", "away": "Bournemouth", "market": [0.362, 0.268, 0.37], "model": [0.341, 0.267, 0.392]}, {"date": "29 Nov", "home": "Brighton", "away": "Newcastle", "market": [0.603, 0.214, 0.183], "model": [0.555, 0.235, 0.211]}, {"date": "29 Nov", "home": "Crystal Palace", "away": "Hull", "market": [0.512, 0.25, 0.239], "model": [0.662, 0.2, 0.138]}, {"date": "29 Nov", "home": "Sunderland", "away": "Tottenham", "market": [0.283, 0.278, 0.439], "model": [0.401, 0.274, 0.325]}, {"date": "29 Nov", "home": "Arsenal", "away": "Man City", "market": [0.48, 0.257, 0.263], "model": [0.487, 0.269, 0.245]}, {"date": "01 Dec", "home": "Coventry", "away": "Ipswich", "market": [0.417, 0.262, 0.321], "model": [0.477, 0.254, 0.269]}, {"date": "02 Dec", "home": "Chelsea", "away": "Crystal Palace", "market": [0.575, 0.22, 0.205], "model": [0.543, 0.249, 0.208]}, {"date": "02 Dec", "home": "Hull", "away": "Nott'm Forest", "market": [0.241, 0.268, 0.491], "model": [0.215, 0.27, 0.515]}, {"date": "02 Dec", "home": "Man City", "away": "Leeds", "market": [0.604, 0.216, 0.179], "model": [0.717, 0.186, 0.097]}, {"date": "02 Dec", "home": "Liverpool", "away": "Sunderland", "market": [0.636, 0.209, 0.155], "model": [0.641, 0.214, 0.146]}, {"date": "02 Dec", "home": "Brentford", "away": "Arsenal", "market": [0.224, 0.255, 0.521], "model": [0.183, 0.245, 0.571]}, {"date": "02 Dec", "home": "Aston Villa", "away": "Everton", "market": [0.474, 0.26, 0.266], "model": [0.508, 0.25, 0.242]}, {"date": "02 Dec", "home": "Bournemouth", "away": "Brighton", "market": [0.386, 0.267, 0.347], "model": [0.434, 0.271, 0.295]}, {"date": "02 Dec", "home": "Newcastle", "away": "Man United", "market": [0.369, 0.25, 0.381], "model": [0.308, 0.264, 0.429]}, {"date": "03 Dec", "home": "Tottenham", "away": "Fulham", "market": [0.513, 0.254, 0.234], "model": [0.436, 0.272, 0.291]}]}, "I1": {"name": "Serie A", "n": 3686, "model_logloss": 0.9679, "book_logloss": 0.9498, "model_hit": 54.6, "market_hit": 55.4, "roi": -8.1, "recent": [{"date": "24 Aug 2026", "home": "Bologna", "away": "Lazio", "model": [0.375, 0.32, 0.305], "market": [0.432, 0.297, 0.271], "result": "A"}, {"date": "24 Aug 2026", "home": "Roma", "away": "Fiorentina", "model": [0.665, 0.195, 0.14], "market": [0.604, 0.231, 0.165], "result": "H"}, {"date": "28 Aug 2026", "home": "Milan", "away": "Venezia", "model": [0.6, 0.296, 0.105], "market": [0.654, 0.211, 0.135], "result": "H"}, {"date": "29 Aug 2026", "home": "Sassuolo", "away": "Torino", "model": [0.485, 0.265, 0.25], "market": [0.421, 0.292, 0.287], "result": "H"}, {"date": "29 Aug 2026", "home": "Fiorentina", "away": "Frosinone", "model": [0.46, 0.366, 0.174], "market": [0.587, 0.232, 0.181], "result": "A"}, {"date": "29 Aug 2026", "home": "Monza", "away": "Udinese", "model": [0.261, 0.328, 0.411], "market": [0.307, 0.297, 0.396], "result": "A"}, {"date": "29 Aug 2026", "home": "Juventus", "away": "Parma", "model": [0.708, 0.204, 0.088], "market": [0.77, 0.145, 0.085], "result": "H"}, {"date": "30 Aug 2026", "home": "Napoli", "away": "Como", "model": [0.481, 0.287, 0.231], "market": [0.379, 0.316, 0.305], "result": "A"}, {"date": "30 Aug 2026", "home": "Cagliari", "away": "Inter", "model": [0.136, 0.189, 0.674], "market": [0.135, 0.21, 0.655], "result": "A"}, {"date": "30 Aug 2026", "home": "Lazio", "away": "Genoa", "model": [0.545, 0.297, 0.158], "market": [0.475, 0.306, 0.219], "result": "H"}, {"date": "31 Aug 2026", "home": "Lecce", "away": "Roma", "model": [0.151, 0.209, 0.639], "market": [0.119, 0.238, 0.643], "result": "A"}, {"date": "31 Aug 2026", "home": "Atalanta", "away": "Bologna", "model": [0.493, 0.304, 0.203], "market": [0.511, 0.252, 0.236], "result": "H"}], "upcoming": []}, "SP1": {"name": "La Liga", "n": 3711, "model_logloss": 0.9828, "book_logloss": 0.9676, "model_hit": 52.6, "market_hit": 53.8, "roi": -8.6, "recent": [{"date": "27 Aug 2026", "home": "Celta", "away": "Osasuna", "model": [0.47, 0.286, 0.245], "market": [0.475, 0.288, 0.237], "result": "A"}, {"date": "27 Aug 2026", "home": "Barcelona", "away": "Ath Bilbao", "model": [0.765, 0.168, 0.067], "market": [0.704, 0.178, 0.117], "result": "H"}, {"date": "28 Aug 2026", "home": "Alaves", "away": "Villarreal", "model": [0.322, 0.254, 0.425], "market": [0.297, 0.271, 0.432], "result": "H"}, {"date": "29 Aug 2026", "home": "Levante", "away": "Betis", "model": [0.283, 0.281, 0.436], "market": [0.28, 0.288, 0.432], "result": "H"}, {"date": "29 Aug 2026", "home": "Sociedad", "away": "Espanol", "model": [0.437, 0.302, 0.261], "market": [0.498, 0.264, 0.238], "result": "H"}, {"date": "29 Aug 2026", "home": "Sevilla", "away": "Ath Madrid", "model": [0.313, 0.276, 0.411], "market": [0.263, 0.287, 0.451], "result": "A"}, {"date": "30 Aug 2026", "home": "Real Madrid", "away": "Malaga", "model": [0.854, 0.115, 0.031], "market": [0.85, 0.105, 0.045], "result": "H"}, {"date": "30 Aug 2026", "home": "La Coruna", "away": "Valencia", "model": [0.304, 0.295, 0.401], "market": [0.374, 0.318, 0.308], "result": "H"}, {"date": "30 Aug 2026", "home": "Celta", "away": "Ath Bilbao", "model": [0.443, 0.296, 0.261], "market": [0.398, 0.296, 0.306], "result": "A"}, {"date": "31 Aug 2026", "home": "Osasuna", "away": "Getafe", "model": [0.529, 0.264, 0.207], "market": [0.431, 0.316, 0.253], "result": "H"}, {"date": "31 Aug 2026", "home": "Barcelona", "away": "Vallecano", "model": [0.813, 0.138, 0.049], "market": [0.809, 0.118, 0.073], "result": "H"}, {"date": "03 Sep 2026", "home": "Sociedad", "away": "Celta", "model": [0.434, 0.292, 0.274], "market": [0.487, 0.264, 0.25], "result": "D"}], "upcoming": []}}, "generated": "23 Nov 2026", "mode": "demo", "overall": {"n": 11049, "model_hit": 53.8, "market_hit": 54.9}};
+const RES = ['H','D','A'], RESFULL={H:'Home',D:'Draw',A:'Away'};
+
+// honesty strip
+document.getElementById('hUs').textContent = DATA.overall.model_hit+'%';
+document.getElementById('hMkt').textContent = DATA.overall.market_hit+'%';
+document.getElementById('hN').textContent = DATA.overall.n.toLocaleString();
+
+// record cards
+const rc = document.getElementById('record-cards');
+Object.entries(DATA.leagues).forEach(([code,l])=>{
+  rc.insertAdjacentHTML('beforeend',`<div class="lcard">
+    <h4>${l.name}</h4><div class="sub">${l.n.toLocaleString()} matches tested</div>
+    <div class="row"><span class="mut">Our accuracy (log-loss)</span><span class="v">${l.model_logloss}</span></div>
+    <div class="row"><span class="mut">Market accuracy (log-loss)</span><span class="v" style="color:var(--eme)">${l.book_logloss}</span></div>
+    <div class="row"><span class="mut">Our top-pick hit rate</span><span class="v">${l.model_hit}%</span></div>
+    <div class="row"><span class="mut">Market top-pick hit rate</span><span class="v">${l.market_hit}%</span></div>
+    <span class="tag">Market sharper — we show it straight</span>
+  </div>`);
+});
+
+// fixtures tabs
+const tabs=document.getElementById('tabs'), fx=document.getElementById('fixtures');
+const codes=Object.keys(DATA.leagues);
+function bar(p){ // p=[H,D,A]
+  return `<div class="pb"><i class="h" style="width:${p[0]*100}%"></i><i class="dd" style="width:${p[1]*100}%"></i><i class="a" style="width:${p[2]*100}%"></i></div>`;
+}
+function render(code){
+  const l=DATA.leagues[code];
+  let html=`<div class="fxrow head"><span>Match</span><span>Our model (H / D / A)</span><span class="mktcol">Market (H / D / A)</span><span>Result</span></div>`;
+  l.recent.slice().reverse().forEach(m=>{
+    const pick=m.model.indexOf(Math.max(...m.model)); const hit=RES[pick]===m.result;
+    html+=`<div class="fxrow">
+      <div class="match">${m.home} v ${m.away}<div class="d">${m.date}</div></div>
+      <div><div class="probs">${bar(m.model)}</div><div class="plabel"><span>${(m.model[0]*100).toFixed(0)}%</span><span>${(m.model[1]*100).toFixed(0)}%</span><span>${(m.model[2]*100).toFixed(0)}%</span></div></div>
+      <div class="mktcol"><div class="probs">${bar(m.market)}</div><div class="plabel"><span>${(m.market[0]*100).toFixed(0)}%</span><span>${(m.market[1]*100).toFixed(0)}%</span><span>${(m.market[2]*100).toFixed(0)}%</span></div></div>
+      <div class="res ${hit?'hit':'miss'}">${RESFULL[m.result]}<br><span style="font-size:11px">${hit?'✓ called':'✗ missed'}</span></div>
+    </div>`;
+  });
+  fx.innerHTML=html;
+}
+codes.forEach((c,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':''); b.textContent=DATA.leagues[c].name;
+  b.onclick=()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');render(c);};
+  tabs.appendChild(b);
+});
+render(codes[0]);
+
+// upcoming predictions
+document.getElementById('genDate').textContent = DATA.generated || '';
+const uptabs=document.getElementById('uptabs'), upfx=document.getElementById('upfixtures');
+const upcodes=codes.filter(c=>(DATA.leagues[c].upcoming||[]).length);
+function renderUp(code){
+  const l=DATA.leagues[code]; const list=l.upcoming||[];
+  const hasMkt=list.some(m=>m.market);
+  let html=`<div class="fxrow head"><span>Fixture</span><span>Our model (H / D / A)</span>${hasMkt?'<span class="mktcol">Market (H / D / A)</span>':'<span class="mktcol"></span>'}<span>Our tip</span></div>`;
+  list.forEach(m=>{
+    const pick=m.model.indexOf(Math.max(...m.model));
+    html+=`<div class="fxrow">
+      <div class="match">${m.home} v ${m.away}<div class="d">${m.date}</div></div>
+      <div><div class="probs">${bar(m.model)}</div><div class="plabel"><span>${(m.model[0]*100).toFixed(0)}%</span><span>${(m.model[1]*100).toFixed(0)}%</span><span>${(m.model[2]*100).toFixed(0)}%</span></div></div>
+      ${hasMkt&&m.market?`<div class="mktcol"><div class="probs">${bar(m.market)}</div><div class="plabel"><span>${(m.market[0]*100).toFixed(0)}%</span><span>${(m.market[1]*100).toFixed(0)}%</span><span>${(m.market[2]*100).toFixed(0)}%</span></div></div>`:'<div class="mktcol"></div>'}
+      <div class="res">${RESFULL[RES[pick]]}<br><span style="font-size:11px;color:var(--mut)">${(m.model[pick]*100).toFixed(0)}% lean</span></div>
+    </div>`;
+  });
+  upfx.innerHTML=html;
+}
+if(upcodes.length){
+  upcodes.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='tab'+(i===0?' active':''); b.textContent=DATA.leagues[c].name;
+    b.onclick=()=>{uptabs.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');renderUp(c);};
+    uptabs.appendChild(b);
+  });
+  renderUp(upcodes[0]);
+}else{document.getElementById('upcoming').style.display='none';}
+</script>
+</body>
+</html>
