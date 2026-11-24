@@ -10,6 +10,134 @@
       "roi": -1.5,
       "recent": [
         {
+          "date": "24 May 2026",
+          "home": "Tottenham",
+          "away": "Everton",
+          "model": [
+            0.399,
+            0.24,
+            0.361
+          ],
+          "market": [
+            0.497,
+            0.253,
+            0.25
+          ],
+          "result": "H"
+        },
+        {
+          "date": "24 May 2026",
+          "home": "West Ham",
+          "away": "Leeds",
+          "model": [
+            0.466,
+            0.235,
+            0.299
+          ],
+          "market": [
+            0.511,
+            0.236,
+            0.252
+          ],
+          "result": "H"
+        },
+        {
+          "date": "22 Aug 2026",
+          "home": "Hull",
+          "away": "Man United",
+          "model": [
+            0.094,
+            0.17,
+            0.735
+          ],
+          "market": [
+            0.112,
+            0.19,
+            0.698
+          ],
+          "result": "H"
+        },
+        {
+          "date": "22 Aug 2026",
+          "home": "Brentford",
+          "away": "Tottenham",
+          "model": [
+            0.456,
+            0.284,
+            0.26
+          ],
+          "market": [
+            0.397,
+            0.257,
+            0.346
+          ],
+          "result": "H"
+        },
+        {
+          "date": "22 Aug 2026",
+          "home": "Everton",
+          "away": "Crystal Palace",
+          "model": [
+            0.443,
+            0.256,
+            0.301
+          ],
+          "market": [
+            0.441,
+            0.271,
+            0.288
+          ],
+          "result": "H"
+        },
+        {
+          "date": "22 Aug 2026",
+          "home": "Nott'm Forest",
+          "away": "Leeds",
+          "model": [
+            0.481,
+            0.254,
+            0.266
+          ],
+          "market": [
+            0.413,
+            0.28,
+            0.307
+          ],
+          "result": "A"
+        },
+        {
+          "date": "22 Aug 2026",
+          "home": "Ipswich",
+          "away": "Sunderland",
+          "model": [
+            0.292,
+            0.253,
+            0.455
+          ],
+          "market": [
+            0.352,
+            0.288,
+            0.361
+          ],
+          "result": "H"
+        },
+        {
+          "date": "23 Aug 2026",
+          "home": "Brighton",
+          "away": "Aston Villa",
+          "model": [
+            0.456,
+            0.235,
+            0.309
+          ],
+          "market": [
+            0.432,
+            0.258,
+            0.31
+          ],
+          "result": "H"
+        },
+        {
           "date": "23 Aug 2026",
           "home": "Man City",
           "away": "Bournemouth",
@@ -201,323 +329,6 @@
           ],
           "result": "A"
         }
-      ],
-      "upcoming": [
-        {
-          "date": "23 Nov",
-          "home": "Brentford",
-          "away": "Everton",
-          "market": [
-            0.415,
-            0.276,
-            0.309
-          ],
-          "model": [
-            0.455,
-            0.265,
-            0.281
-          ]
-        },
-        {
-          "date": "27 Nov",
-          "home": "Nott'm Forest",
-          "away": "Chelsea",
-          "market": [
-            0.352,
-            0.274,
-            0.374
-          ],
-          "model": [
-            0.357,
-            0.273,
-            0.369
-          ]
-        },
-        {
-          "date": "28 Nov",
-          "home": "Man United",
-          "away": "Brentford",
-          "market": [
-            0.472,
-            0.25,
-            0.278
-          ],
-          "model": [
-            0.583,
-            0.235,
-            0.182
-          ]
-        },
-        {
-          "date": "28 Nov",
-          "home": "Leeds",
-          "away": "Coventry",
-          "market": [
-            0.621,
-            0.218,
-            0.161
-          ],
-          "model": [
-            0.537,
-            0.255,
-            0.207
-          ]
-        },
-        {
-          "date": "28 Nov",
-          "home": "Ipswich",
-          "away": "Aston Villa",
-          "market": [
-            0.278,
-            0.247,
-            0.476
-          ],
-          "model": [
-            0.229,
-            0.275,
-            0.496
-          ]
-        },
-        {
-          "date": "29 Nov",
-          "home": "Everton",
-          "away": "Liverpool",
-          "market": [
-            0.271,
-            0.259,
-            0.47
-          ],
-          "model": [
-            0.339,
-            0.269,
-            0.392
-          ]
-        },
-        {
-          "date": "29 Nov",
-          "home": "Fulham",
-          "away": "Bournemouth",
-          "market": [
-            0.362,
-            0.268,
-            0.37
-          ],
-          "model": [
-            0.341,
-            0.267,
-            0.392
-          ]
-        },
-        {
-          "date": "29 Nov",
-          "home": "Brighton",
-          "away": "Newcastle",
-          "market": [
-            0.603,
-            0.214,
-            0.183
-          ],
-          "model": [
-            0.555,
-            0.235,
-            0.211
-          ]
-        },
-        {
-          "date": "29 Nov",
-          "home": "Crystal Palace",
-          "away": "Hull",
-          "market": [
-            0.511,
-            0.25,
-            0.239
-          ],
-          "model": [
-            0.662,
-            0.2,
-            0.137
-          ]
-        },
-        {
-          "date": "29 Nov",
-          "home": "Sunderland",
-          "away": "Tottenham",
-          "market": [
-            0.283,
-            0.278,
-            0.439
-          ],
-          "model": [
-            0.401,
-            0.274,
-            0.325
-          ]
-        },
-        {
-          "date": "29 Nov",
-          "home": "Arsenal",
-          "away": "Man City",
-          "market": [
-            0.48,
-            0.257,
-            0.263
-          ],
-          "model": [
-            0.487,
-            0.269,
-            0.245
-          ]
-        },
-        {
-          "date": "01 Dec",
-          "home": "Coventry",
-          "away": "Ipswich",
-          "market": [
-            0.417,
-            0.262,
-            0.321
-          ],
-          "model": [
-            0.477,
-            0.254,
-            0.269
-          ]
-        },
-        {
-          "date": "02 Dec",
-          "home": "Chelsea",
-          "away": "Crystal Palace",
-          "market": [
-            0.575,
-            0.22,
-            0.205
-          ],
-          "model": [
-            0.543,
-            0.249,
-            0.208
-          ]
-        },
-        {
-          "date": "02 Dec",
-          "home": "Hull",
-          "away": "Nott'm Forest",
-          "market": [
-            0.241,
-            0.268,
-            0.491
-          ],
-          "model": [
-            0.215,
-            0.27,
-            0.515
-          ]
-        },
-        {
-          "date": "02 Dec",
-          "home": "Man City",
-          "away": "Leeds",
-          "market": [
-            0.604,
-            0.216,
-            0.179
-          ],
-          "model": [
-            0.717,
-            0.186,
-            0.097
-          ]
-        },
-        {
-          "date": "02 Dec",
-          "home": "Liverpool",
-          "away": "Sunderland",
-          "market": [
-            0.636,
-            0.209,
-            0.155
-          ],
-          "model": [
-            0.641,
-            0.214,
-            0.146
-          ]
-        },
-        {
-          "date": "02 Dec",
-          "home": "Brentford",
-          "away": "Arsenal",
-          "market": [
-            0.224,
-            0.255,
-            0.521
-          ],
-          "model": [
-            0.183,
-            0.245,
-            0.571
-          ]
-        },
-        {
-          "date": "02 Dec",
-          "home": "Aston Villa",
-          "away": "Everton",
-          "market": [
-            0.474,
-            0.26,
-            0.266
-          ],
-          "model": [
-            0.508,
-            0.25,
-            0.242
-          ]
-        },
-        {
-          "date": "02 Dec",
-          "home": "Bournemouth",
-          "away": "Brighton",
-          "market": [
-            0.386,
-            0.267,
-            0.347
-          ],
-          "model": [
-            0.434,
-            0.271,
-            0.295
-          ]
-        },
-        {
-          "date": "02 Dec",
-          "home": "Newcastle",
-          "away": "Man United",
-          "market": [
-            0.369,
-            0.25,
-            0.381
-          ],
-          "model": [
-            0.308,
-            0.264,
-            0.429
-          ]
-        },
-        {
-          "date": "03 Dec",
-          "home": "Tottenham",
-          "away": "Fulham",
-          "market": [
-            0.513,
-            0.254,
-            0.234
-          ],
-          "model": [
-            0.436,
-            0.272,
-            0.291
-          ]
-        }
       ]
     },
     "I1": {
@@ -529,6 +340,134 @@
       "market_hit": 55.4,
       "roi": -8.1,
       "recent": [
+        {
+          "date": "22 Aug 2026",
+          "home": "Inter",
+          "away": "Monza",
+          "model": [
+            0.811,
+            0.158,
+            0.031
+          ],
+          "market": [
+            0.791,
+            0.136,
+            0.073
+          ],
+          "result": "H"
+        },
+        {
+          "date": "22 Aug 2026",
+          "home": "Udinese",
+          "away": "Como",
+          "model": [
+            0.289,
+            0.293,
+            0.417
+          ],
+          "market": [
+            0.212,
+            0.265,
+            0.522
+          ],
+          "result": "D"
+        },
+        {
+          "date": "22 Aug 2026",
+          "home": "Genoa",
+          "away": "Napoli",
+          "model": [
+            0.208,
+            0.263,
+            0.53
+          ],
+          "market": [
+            0.213,
+            0.282,
+            0.505
+          ],
+          "result": "A"
+        },
+        {
+          "date": "22 Aug 2026",
+          "home": "Parma",
+          "away": "Cagliari",
+          "model": [
+            0.407,
+            0.322,
+            0.271
+          ],
+          "market": [
+            0.379,
+            0.316,
+            0.305
+          ],
+          "result": "A"
+        },
+        {
+          "date": "23 Aug 2026",
+          "home": "Frosinone",
+          "away": "Juventus",
+          "model": [
+            0.162,
+            0.254,
+            0.584
+          ],
+          "market": [
+            0.119,
+            0.226,
+            0.655
+          ],
+          "result": "A"
+        },
+        {
+          "date": "23 Aug 2026",
+          "home": "Venezia",
+          "away": "Lecce",
+          "model": [
+            0.424,
+            0.312,
+            0.264
+          ],
+          "market": [
+            0.425,
+            0.309,
+            0.266
+          ],
+          "result": "A"
+        },
+        {
+          "date": "23 Aug 2026",
+          "home": "Atalanta",
+          "away": "Sassuolo",
+          "model": [
+            0.558,
+            0.29,
+            0.151
+          ],
+          "market": [
+            0.622,
+            0.232,
+            0.146
+          ],
+          "result": "H"
+        },
+        {
+          "date": "23 Aug 2026",
+          "home": "Torino",
+          "away": "Milan",
+          "model": [
+            0.244,
+            0.293,
+            0.463
+          ],
+          "market": [
+            0.199,
+            0.262,
+            0.539
+          ],
+          "result": "A"
+        },
         {
           "date": "24 Aug 2026",
           "home": "Bologna",
@@ -721,8 +660,7 @@
           ],
           "result": "H"
         }
-      ],
-      "upcoming": []
+      ]
     },
     "SP1": {
       "name": "La Liga",
@@ -733,6 +671,134 @@
       "market_hit": 53.8,
       "roi": -8.6,
       "recent": [
+        {
+          "date": "22 Aug 2026",
+          "home": "Espanol",
+          "away": "Real Madrid",
+          "model": [
+            0.159,
+            0.236,
+            0.604
+          ],
+          "market": [
+            0.135,
+            0.21,
+            0.655
+          ],
+          "result": "A"
+        },
+        {
+          "date": "22 Aug 2026",
+          "home": "Ath Bilbao",
+          "away": "Sevilla",
+          "model": [
+            0.487,
+            0.298,
+            0.215
+          ],
+          "market": [
+            0.557,
+            0.263,
+            0.18
+          ],
+          "result": "A"
+        },
+        {
+          "date": "23 Aug 2026",
+          "home": "Elche",
+          "away": "Barcelona",
+          "model": [
+            0.104,
+            0.232,
+            0.664
+          ],
+          "market": [
+            0.105,
+            0.165,
+            0.73
+          ],
+          "result": "A"
+        },
+        {
+          "date": "23 Aug 2026",
+          "home": "Ath Madrid",
+          "away": "Villarreal",
+          "model": [
+            0.465,
+            0.256,
+            0.279
+          ],
+          "market": [
+            0.509,
+            0.262,
+            0.23
+          ],
+          "result": "D"
+        },
+        {
+          "date": "24 Aug 2026",
+          "home": "Osasuna",
+          "away": "Levante",
+          "model": [
+            0.503,
+            0.273,
+            0.224
+          ],
+          "market": [
+            0.518,
+            0.263,
+            0.219
+          ],
+          "result": "D"
+        },
+        {
+          "date": "24 Aug 2026",
+          "home": "Malaga",
+          "away": "La Coruna",
+          "model": [
+            0.4,
+            0.316,
+            0.284
+          ],
+          "market": [
+            0.383,
+            0.309,
+            0.309
+          ],
+          "result": "D"
+        },
+        {
+          "date": "25 Aug 2026",
+          "home": "Valencia",
+          "away": "Betis",
+          "model": [
+            0.362,
+            0.285,
+            0.353
+          ],
+          "market": [
+            0.339,
+            0.288,
+            0.373
+          ],
+          "result": "A"
+        },
+        {
+          "date": "26 Aug 2026",
+          "home": "Real Madrid",
+          "away": "Sociedad",
+          "model": [
+            0.791,
+            0.148,
+            0.061
+          ],
+          "market": [
+            0.73,
+            0.152,
+            0.119
+          ],
+          "result": "H"
+        },
         {
           "date": "27 Aug 2026",
           "home": "Celta",
@@ -925,12 +991,10 @@
           ],
           "result": "D"
         }
-      ],
-      "upcoming": []
+      ]
     }
   },
-  "generated": "23 Nov 2026",
-  "mode": "demo",
+  "generated": "2026-11-24",
   "overall": {
     "n": 11049,
     "model_hit": 53.8,
