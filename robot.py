@@ -65,13 +65,23 @@ def norm(s):
 def softmax(v):
     m = max(v); e = [math.exp(x-m) for x in v]; s = sum(e); return [x/s for x in e]
 
-def predict(model, vals):
+def prob(model, vals):
     feats = model['feats']
     z = [(vals[f]-model['mean'][i])/model['scale'][i] for i,f in enumerate(feats)]
     logits = [sum(z[j]*model['coef'][c][j] for j in range(len(feats))) + model['intercept'][c]
               for c in range(len(model['classes']))]
-    p = dict(zip(model['classes'], softmax(logits)))
+    return dict(zip(model['classes'], softmax(logits)))
+
+def predict(model, vals):
+    p = prob(model, vals)
     return [round(p.get('H',0),3), round(p.get('D',0),3), round(p.get('A',0),3)]
+
+def feats_ou(sh, sa):
+    rh, ra = sh['roll'], sa['roll']            # [sf, sa, gf, ga]
+    if None in (sh['form'], sa['form'], rh[2], rh[3], ra[2], ra[3]): return None
+    hgf, hga, agf, aga = rh[2], rh[3], ra[2], ra[3]
+    return {'form_diff':sh['form']-sa['form'],'gf_sum':hgf+hga+agf+aga,'gf_att':hgf-aga,
+            'gf_def':agf-hga,'h_gf':hgf,'h_ga':hga,'a_gf':agf,'a_ga':aga}
 
 def feats_for(kind, sh, sa):
     rh, ra = sh['roll'], sa['roll']            # [sf, sa, gf, ga]
@@ -125,7 +135,7 @@ def fetch(key, region):
     apikey = os.environ.get('THE_ODDS_API_KEY','').strip()
     if not apikey: return None
     url = (f"https://api.the-odds-api.com/v4/sports/{key}/odds/"
-           f"?apiKey={apikey}&regions={region}&markets=h2h&oddsFormat=decimal")
+           f"?apiKey={apikey}&regions={region}&markets=h2h,totals&oddsFormat=decimal")
     try:
         with urllib.request.urlopen(url, timeout=30) as r:
             left = r.headers.get('x-requests-remaining')
@@ -136,25 +146,33 @@ def fetch(key, region):
         print(f"  [{key}] skipped: {e}")
         return []
 
-def consensus(ev):
+def parse_event(ev):
     hn, an = ev['home_team'], ev['away_team']
-    acc = {hn: [], an: [], 'Draw': []}
+    acc = {hn: [], an: [], 'Draw': []}; over, under = [], []
     for bk in ev.get('bookmakers', []):
         for mk in bk.get('markets', []):
-            if mk['key'] != 'h2h': continue
-            for o in mk['outcomes']:
-                if o['name'] in acc: acc[o['name']].append(o['price'])
+            if mk['key'] == 'h2h':
+                for o in mk['outcomes']:
+                    if o['name'] in acc: acc[o['name']].append(o['price'])
+            elif mk['key'] == 'totals':
+                for o in mk['outcomes']:
+                    if abs(o.get('point', 0) - 2.5) < 1e-6:
+                        (over if o['name'] == 'Over' else under).append(o['price'])
     if not (acc[hn] and acc[an] and acc['Draw']): return None
-    avg = lambda L: sum(L)/len(L)
+    avg = lambda L: sum(L) / len(L)
     ip = [1/avg(acc[hn]), 1/avg(acc['Draw']), 1/avg(acc[an])]; s = sum(ip)
-    return hn, an, [round(x/s,3) for x in ip]
+    mkt = [round(x/s, 3) for x in ip]
+    ou_mkt = None
+    if over and under:
+        po, pu = 1/avg(over), 1/avg(under); ou_mkt = round(po/(po+pu), 3)
+    return hn, an, mkt, ou_mkt
 
 def fdate(iso):
     try: return datetime.datetime.strptime(iso[:10], "%Y-%m-%d").strftime("%d %b")
     except Exception: return iso[:10]
 
 def main():
-    models = {'eu': load('model_eu.json'), 'basic': load('model_basic.json')}
+    models = {'eu': load('model_eu.json'), 'basic': load('model_basic.json'), 'ou': load('model_ou.json')}
     state = load('team_state.json')
     out = []
     for key, code, name, kind, region, divs in LEAGUES:
@@ -165,9 +183,9 @@ def main():
         mt = Matcher(state, divs); fixtures = []
         for ev in events:
             if ev.get('sport_key') != key: continue
-            c = consensus(ev)
+            c = parse_event(ev)
             if not c: continue
-            hn, an, mkt = c
+            hn, an, mkt, ou_mkt = c
             H, A = mt.find(hn), mt.find(an)
             row = {'date': fdate(ev.get('commence_time','')), 'home': (H or hn), 'away': (A or an), 'market': mkt}
             vals = feats_for(kind, state[H], state[A]) if (H and A) else None
@@ -175,6 +193,12 @@ def main():
                 row['model'] = predict(models[kind], vals)
             else:
                 row['model'] = mkt; row['nomodel'] = True
+            if H and A:
+                of = feats_ou(state[H], state[A])
+                if of is not None:
+                    row['ou_model'] = round(prob(models['ou'], of)['O'], 3)
+            if ou_mkt is not None:
+                row['ou_market'] = ou_mkt
             fixtures.append(row)
         if fixtures:
             modeled = sum(1 for f in fixtures if not f.get('nomodel'))
