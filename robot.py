@@ -14,6 +14,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 # key, site-code, display name, model, API region, candidate divisions ([] = all European)
 EU = ['E0','E1','E2','SP1','SP2','I1','I2','D1','D2','F1','F2','P1','B1','N1','SC0','SC1','T1','G1']
+# every European division we actually hold data for — used to match cup (UCL/UEL/UECL) teams
+EUROPE = ['E0','E1','E2','E3','EC','SP1','SP2','I1','I2','F1','F2','T1','P1','N1','B1','D1','D2',
+          'SC0','SC1','SC2','SC3','G1','ROM','POL','SWE','RUS','NOR','SUI','DEN','AUT','IRL','FIN']
 LEAGUES = [
   ("soccer_epl","E0","Premier League","eu","uk",['E0','E1']),
   ("soccer_spain_la_liga","SP1","La Liga","eu","uk",['SP1','SP2']),
@@ -27,9 +30,9 @@ LEAGUES = [
   ("soccer_spl","SC0","Scottish Premiership","eu","uk",['SC0','SC1']),
   ("soccer_turkey_super_league","T1","Super Lig","eu","uk",['T1']),
   ("soccer_greece_super_league","G1","Super League Greece","eu","uk",['G1']),
-  ("soccer_uefa_champs_league","CL","Champions League","eu","uk",EU),
-  ("soccer_uefa_europa_league","EL","Europa League","eu","uk",EU),
-  ("soccer_uefa_europa_conference_league","ECL","Conference League","eu","uk",EU),
+  ("soccer_uefa_champs_league","CL","Champions League","eu","uk",EUROPE),
+  ("soccer_uefa_europa_league","EL","Europa League","eu","uk",EUROPE),
+  ("soccer_uefa_europa_conference_league","ECL","Conference League","eu","uk",EUROPE),
   ("soccer_usa_mls","USA","MLS","basic","us",['USA']),
   ("soccer_brazil_campeonato","BRA","Brazil Serie A","basic","us",['BRA']),
   ("soccer_argentina_primera_division","ARG","Argentina Primera","basic","us",['ARG']),
@@ -188,9 +191,13 @@ def main():
             hn, an, mkt, ou_mkt = c
             H, A = mt.find(hn), mt.find(an)
             row = {'date': fdate(ev.get('commence_time','')), 'home': (H or hn), 'away': (A or an), 'market': mkt}
+            mk = kind
             vals = feats_for(kind, state[H], state[A]) if (H and A) else None
+            if vals is None and H and A and kind == 'eu':   # smaller-league team lacks shots/elo
+                vb = feats_for('basic', state[H], state[A])
+                if vb is not None: mk, vals = 'basic', vb
             if vals is not None:
-                row['model'] = predict(models[kind], vals)
+                row['model'] = predict(models[mk], vals)
             else:
                 row['model'] = mkt; row['nomodel'] = True
             if H and A:
